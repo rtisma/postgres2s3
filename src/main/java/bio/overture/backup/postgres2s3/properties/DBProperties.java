@@ -16,7 +16,7 @@ import javax.validation.constraints.Positive;
 @Getter
 @Component
 @Validated
-@ConfigurationProperties(prefix = DBProperties.DB)
+@ConfigurationProperties(DBProperties.DB)
 public class DBProperties {
 
   public static final String DB = "db";

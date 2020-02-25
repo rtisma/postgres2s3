@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Component
 @Validated
-@ConfigurationProperties(prefix = S3Properties.S3)
+@ConfigurationProperties(S3Properties.S3)
 public class S3Properties {
 
   public static final String S3 = "s3";
@@ -28,12 +28,5 @@ public class S3Properties {
   @NotBlank private String bucketName;
 
   private String endpointUrl;
-
-  @Bean
-  public String seo(){
-    log.info("sdfdsf");
-    return "";
-  }
-
 
 }
