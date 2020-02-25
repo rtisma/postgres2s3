@@ -1,1 +1,18 @@
 
+backup:
+  prefix: backup
+  cron-schedule: "* * * * *"
+
+s3:
+  access-key: "myAccessKey"
+  secret-key: "mySecretKey"
+  bucket-name: "my_backups"
+  endpoint-url: "https://example.org"
+
+db:
+  user: "postgres"
+  password: "password"
+  name: "mydb"
+  host: "localhost"
+  port: 5432
+
