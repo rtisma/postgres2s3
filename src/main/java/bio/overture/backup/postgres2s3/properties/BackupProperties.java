@@ -34,4 +34,6 @@ public class BackupProperties {
 
   @NotNull private Path pgDumpExePath;
 
+  private boolean autoCreateBucket;
+
 }

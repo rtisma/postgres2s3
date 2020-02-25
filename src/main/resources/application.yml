@@ -2,6 +2,7 @@
 backup:
   prefix: backup
   cron-schedule: "* * * * * *"
+  auto-create-bucket: false
 
 s3:
   access-key: "myAccessKey"
