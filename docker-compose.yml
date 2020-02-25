@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_PASSWORD=password
+    expose:
+      - "5432"
+    volumes:
+      - "./docker/postgres:/docker-entrypoint-initdb.d"
+    ports:
+      - "9432:5432"
+  s3:
+    #NOTE: must use 2018-05-11 version, since the ETag rules are different. 2018 will return the part md5, anything newer will not, and score-server expects etag==md5
+    image: minio/minio:RELEASE.2018-05-11T00-29-24Z
+    user: "$MY_UID:$MY_GID"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    volumes:
+      - "./docker/s3/data:/data"
+      - "./docker/s3/minio:/.minio"
+    command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "8085:9000"
+  backup:
+    build:
+      context: ./
+      dockerfile: "Dockerfile"
+    depends_on:
+      - postgres
+      - s3
+    environment:
+      BACKUP_CRONSCHEDULE: "*/10 * * * * *"
+      BACKUP_PREFIX: mybackup
+      BACKUP_AUTOCREATEBUCKET: "true"
+      BACKUP_PGDUMPEXEPATH: /usr/bin/pg_dump
+      S3_ACCESSKEY: minio
+      S3_SECRETKEY: minio123
+      S3_BUCKETNAME: mybackups
+      S3_ENDPOINTURL:  http://s3:9000
+      DB_NAME: app
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password

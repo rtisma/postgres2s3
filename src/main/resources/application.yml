@@ -3,6 +3,7 @@ backup:
   prefix: backup
   cron-schedule: "* * * * * *"
   auto-create-bucket: false
+  pg-dump-exe-path: /dev/null
 
 s3:
   access-key: "myAccessKey"

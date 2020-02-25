@@ -36,8 +36,9 @@ public class S3Service {
   public void uploadFile(@NonNull Path file){
     val bucketName = s3Properties.getBucketName();
     provisionBucket(bucketName);
+    val key =  file.getFileName().toString();
     log.info("Uploading file '{}' to bucket '{}", file.toString(), bucketName);
-    amazonS3Client.putObject(bucketName, file.toString(), file.toFile());
+    amazonS3Client.putObject(bucketName, key, file.toFile());
     log.info("-  Done");
   }
 

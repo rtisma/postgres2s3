@@ -4,9 +4,11 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.val;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -115,7 +117,9 @@ public class FileIO {
   }
 
   public static Optional<String> getExtension(@NonNull Path file){
-    val result = file.getFileName().toString().replaceAll(".*\\.", "");
+    val result = file.getFileName().toString()
+        .replaceAll("^\\.\\|^\\/", "")
+        .replaceAll("^[^\\.]+\\.", "");
     if (isNullOrEmpty(result)){
       return Optional.empty();
     } else {
@@ -123,20 +127,29 @@ public class FileIO {
     }
   }
 
+  public static void compressGzipFile(InputStream inputStream, Path outputGzipFile) throws IOException {
+    val fos = new FileOutputStream(outputGzipFile.toFile());
+    val gzipOS = new GZIPOutputStream(fos);
+    byte[] buffer = new byte[1024];
+    int len;
+    while((len=inputStream.read(buffer)) != -1){
+      gzipOS.write(buffer, 0, len);
+    }
+    //close resources
+    gzipOS.close();
+    fos.close();
+    inputStream.close();
+  }
+
   public static void compressGzipFile(Path inputFile, Path outputGzipFile) throws IOException {
    val fis = new FileInputStream(inputFile.toFile());
-   val fos = new FileOutputStream(outputGzipFile.toFile());
-   val gzipOS = new GZIPOutputStream(fos);
-   byte[] buffer = new byte[1024];
-   int len;
-   while((len=fis.read(buffer)) != -1){
-    gzipOS.write(buffer, 0, len);
-   }
-   //close resources
-   gzipOS.close();
-   fos.close();
-   fis.close();
+   compressGzipFile(fis, outputGzipFile);
  }
+
+  public static void compressGzipFile(String inputData, Path outputGzipFile) throws IOException {
+    val bais = new ByteArrayInputStream(inputData.getBytes());
+    compressGzipFile(bais, outputGzipFile);
+  }
 
   private static void pathChecker(Supplier<Optional<String>> statusSupplier) throws IOException {
     val result = statusSupplier.get();

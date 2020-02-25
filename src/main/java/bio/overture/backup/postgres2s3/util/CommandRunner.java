@@ -9,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static bio.overture.backup.postgres2s3.util.CollectionUtils.convertToStringStringMap;
 import static com.google.common.collect.Lists.newArrayList;
@@ -32,10 +30,10 @@ public class CommandRunner {
   @NonNull private final String command;
 
   public CommandResult executeArgs(Object ... args) throws IOException, InterruptedException {
-    return executeArgs(Map.of(), args);
+    return executeArgsWithEnv(Map.of(), args);
   }
 
-  public CommandResult executeArgs(@NonNull Map<String,Object> envVars, Object ... args) throws IOException, InterruptedException {
+  public CommandResult executeArgsWithEnv(@NonNull Map<String,Object> envVars, Object ... args) throws IOException, InterruptedException {
     val stringArgs = stream(args).map(Object::toString).collect(toUnmodifiableList());
     return execute(convertToStringStringMap(envVars), stringArgs);
   }

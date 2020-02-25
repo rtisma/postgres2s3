@@ -28,8 +28,9 @@ public class BackupProperties {
   @Pattern(regexp = "^[A-Za-z0-9_\\-]+$")
   private String prefix;
 
+  // For more information on cron config, refer to:
+  // https://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm
   @NotBlank
-  @Pattern(regexp = "^((\\*|\\?|\\d+((\\/|\\-){0,1}(\\d+))*)\\s*){6}$")
   private String cronSchedule;
 
   @NotNull private Path pgDumpExePath;
