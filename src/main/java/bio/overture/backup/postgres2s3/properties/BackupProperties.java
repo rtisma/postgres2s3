@@ -24,7 +24,6 @@ public class BackupProperties {
 
   public static final String BACKUP = "backup";
 
-  @NotBlank
   @Pattern(regexp = "^[A-Za-z0-9_\\-]+$")
   private String prefix;
 
@@ -35,6 +34,10 @@ public class BackupProperties {
 
   @NotNull private Path pgDumpExePath;
 
-  private boolean autoCreateBucket;
+  @NotNull private Boolean autoCreateBucket;
+
+  public Boolean isAutoCreateBucket(){
+    return getAutoCreateBucket();
+  }
 
 }

@@ -23,6 +23,7 @@ import static bio.overture.backup.postgres2s3.util.FileIO.compressGzipFile;
 import static bio.overture.backup.postgres2s3.util.FileIO.getExtension;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.lang.String.format;
 import static java.nio.file.Files.move;
 import static java.util.Objects.isNull;
@@ -63,9 +64,17 @@ public class DBDumpService {
   val ext = getExtension(gzipTmpFile)
       .orElseThrow(() -> new IllegalArgumentException(
           format("The filename does not have an extension: %s", gzipTmpFile.toString())));
-  val newPath = parentDir.resolve(format("%s_%s_%s.%s", backupProperties.getPrefix(), dateString, md5, ext));
+  val newPath = parentDir.resolve(resolveUploadFilename(dateString, md5, ext));
   move(gzipTmpFile, newPath);
   return newPath;
+ }
+
+ private String resolveUploadFilename(String date, String md5, String ext){
+  if (isNullOrEmpty(backupProperties.getPrefix())){
+   return format("%s_%s_%s.%s", dbProperties.getName(), date, md5, ext);
+  } else {
+   return format("%s_%s_%s_%s.%s", backupProperties.getPrefix(), dbProperties.getName(), date, md5, ext);
+  }
  }
 
 }

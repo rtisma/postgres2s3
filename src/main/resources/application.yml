@@ -1,9 +1,29 @@
+backup:
+  prefix:
+  cron-schedule:
+  auto-create-bucket:
+  pg-dump-exe-path: /usr/bin/pg_dump
 
+s3:
+  access-key:
+  secret-key:
+  bucket-name:
+  endpoint-url:
+
+db:
+  user:
+  password:
+  name:
+  host:
+  port:
+
+---
+spring.profiles: test
 backup:
   prefix: backup
-  cron-schedule: "* * * * * *"
+  cron-schedule: "*/10 * * * * *"
   auto-create-bucket: false
-  pg-dump-exe-path: /dev/null
+  pg-dump-exe-path: ./some-exe-file
 
 s3:
   access-key: "myAccessKey"
