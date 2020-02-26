@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:9.5
     environment:
-      - POSTGRES_DB=app
+      - POSTGRES_DB=userdb
       - POSTGRES_PASSWORD=password
     expose:
       - "5432"
@@ -45,7 +45,7 @@ services:
       S3_SECRETKEY: minio123
       S3_BUCKETNAME: mybackups
       S3_ENDPOINTURL:  http://s3:9000
-      DB_NAME: app
+      DB_NAME: userdb
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: postgres
