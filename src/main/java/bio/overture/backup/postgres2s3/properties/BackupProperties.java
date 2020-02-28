@@ -24,7 +24,7 @@ public class BackupProperties {
 
   public static final String BACKUP = "backup";
 
-  @Pattern(regexp = "^[A-Za-z0-9_\\-]+$")
+  @Pattern(regexp = "^[A-Za-z0-9_\\-\\.]+$")
   private String prefix;
 
   // For more information on cron config, refer to:
