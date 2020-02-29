@@ -1,3 +1,4 @@
+ARG POSTGRESQL_VERSION
 ###############################
 # Maven builder
 ###############################
@@ -13,6 +14,7 @@ RUN ./mvnw clean package -DskipTests
 # Postgres2s3
 ###############################
 FROM adoptopenjdk/openjdk11:jre-11.0.6_10-alpine
+ARG POSTGRESQL_VERSION
 
 # Paths
 ENV APP_HOME /srv
@@ -27,7 +29,7 @@ RUN addgroup -S -g $APP_GID $APP_USER  \
     && mkdir -p $APP_HOME $APP_LOGS \
     && chown -R $APP_UID:$APP_GID $APP_HOME \
 	&& apk update \
-	&& apk add postgresql \
+	&& apk add postgresql=$POSTGRESQL_VERSION \
 	&& rm -rf /var/cache/apk/*
 
 COPY --from=builder /srv/target/*-exec.jar $JAR_FILE
