@@ -1,0 +1,3 @@
+#!/bin/bash
+postgres_version=$(cat POSTGRESQL_VERSION)
+docker build --build-args "POSTGRESQL_VERSION=${postgres_version}" -f $DOCKERFILE_PATH -t $DOCKER_REPO:$SOURCE_COMMIT .
