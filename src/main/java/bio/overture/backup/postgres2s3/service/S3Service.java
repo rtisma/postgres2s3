@@ -36,8 +36,8 @@ public class S3Service {
   public void uploadFile(@NonNull Path file){
     val bucketName = s3Properties.getBucketName();
     provisionBucket(bucketName);
-    val key =  file.getFileName().toString();
-    log.info("Uploading file '{}' to bucket '{}'", file.toString(), bucketName);
+    val key =  resolveObjectKey(file);
+    log.info("Uploading file '{}' to bucket '{}' with objectKey '{}'", file.toString(), bucketName, key);
     amazonS3Client.putObject(bucketName, key, file.toFile());
     log.info("-  Done");
   }
@@ -50,6 +50,10 @@ public class S3Service {
       createBucket(bucketName);
       log.info("-  Done");
     }
+  }
+
+  private String resolveObjectKey(Path file){
+    return s3Properties.getBucketPath()+"/"+file.getFileName().toString();
   }
 
   private boolean isBucketExist(String bucketName){

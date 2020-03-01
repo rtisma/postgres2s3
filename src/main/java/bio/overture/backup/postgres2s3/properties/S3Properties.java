@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Slf4j
 @Setter
@@ -25,7 +26,13 @@ public class S3Properties {
 
   @NotBlank private String secretKey;
 
-  @NotBlank private String bucketName;
+  @NotBlank
+  @Pattern(regexp = "^[^\\.\\/]+[a-zA-Z0-9_\\-\\.]+$")
+  private String bucketName;
+
+  @NotBlank
+  @Pattern(regexp = "^[^\\.\\/]+[a-zA-Z0-9_\\-\\.\\/]+$")
+  private String bucketPath;
 
   private String endpointUrl;
 

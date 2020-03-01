@@ -33,6 +33,8 @@ services:
     build:
       context: ./
       dockerfile: "Dockerfile"
+      args:
+        POSTGRESQL_VERSION: "$POSTGRESQL_VERSION"
     depends_on:
       - postgres
       - s3
@@ -44,6 +46,7 @@ services:
       S3_ACCESSKEY: minio
       S3_SECRETKEY: minio123
       S3_BUCKETNAME: mybackups
+      S3_BUCKETPATH: my-bucket-path/data
       S3_ENDPOINTURL:  http://s3:9000
       DB_NAME: userdb
       DB_HOST: postgres
