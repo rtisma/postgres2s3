@@ -1,3 +1,5 @@
 #!/bin/bash
+
+commitid=$(git describe --always)
 postgres_version=$(cat POSTGRESQL_VERSION)
-docker build --build-arg "POSTGRESQL_VERSION=${postgres_version}" -f $DOCKERFILE_PATH -t $DOCKER_REPO:$SOURCE_COMMIT .
+docker build --build-arg "POSTGRESQL_VERSION=${postgres_version}" -f $DOCKERFILE_PATH -t $DOCKER_REPO:$commitid
