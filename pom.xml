@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>bio.overture.backup</groupId>
 	<artifactId>postgres2s3</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 	<name>postgres2s3</name>
 	<description>Program that backs up postgres to s3</description>
 
