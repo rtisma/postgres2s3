@@ -15,12 +15,12 @@ docker push $DOCKER_REPO:edge
 
 regex="^([0-9]+\.[0-9]+\.[0-9]+)$"
 docker build --target builder -f $DOCKERFILE_PATH -t builder .
-pom_version=$(docker run --rm -it builder ./mvnw -q     -Dexec.executable=echo     -Dexec.args='${project.version}'     --non-recursive     exec:exec)
-echo "Extracted POM_VERSION=${pom_version} from SOURCE_BRANCH=${SOURCE_BRANCH}"
+pom_version=$(docker run --rm -i builder ./mvnw -q     -Dexec.executable=echo     -Dexec.args='${project.version}'     --non-recursive     exec:exec)
+echo "Extracted POM_VERSION \"${pom_version}\" from SOURCE_BRANCH=${SOURCE_BRANCH}"
 
 if [[ ${pom_version} =~ $regex ]]; then
     version="${BASH_REMATCH[1]}"
-    echo "TAG ${TAG} matches the regex: $regex. Tagging and pushing versioned image with version ${version}"
+    echo "PomVersion ${pom_version} matches the regex: $regex. Tagging and pushing versioned image with version ${version}"
 
     echo "Tagging image $DOCKER_REPO:$commitid with tag $DOCKER_REPO:${version}"
     docker tag $DOCKER_REPO:$commitid $DOCKER_REPO:${version}
@@ -34,6 +34,6 @@ if [[ ${pom_version} =~ $regex ]]; then
     echo "Pushing tag $DOCKER_REPO:latest"
     docker push $DOCKER_REPO:latest
 else
-    echo "TAG ${TAG} does not match the regex: $regex. Versioned image not pushed"
+    echo "PomVersion \"${pom_version}\" does not match the regex: $regex. Versioned image not pushed"
 fi
 
