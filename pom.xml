@@ -154,7 +154,7 @@
 		<java.version>11</java.version>
 		<lombok.version>1.18.12</lombok.version>
 		<javax.validation.version>2.0.1.Final</javax.validation.version>
-		<hibernate.validator.version>6.1.1.Final</hibernate.validator.version>
+		<hibernate.validator.version>6.1.5.Final</hibernate.validator.version>
 		<aws-java-sdk.version>1.11.219</aws-java-sdk.version>
 		<guava.version>24.1-jre</guava.version>
 	</properties>
